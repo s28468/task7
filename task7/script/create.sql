@@ -82,9 +82,9 @@ INSERT INTO "Order"(IdProduct, Amount, CreatedAt)
 VALUES((SELECT IdProduct FROM Product WHERE Name='Abacavir'), 125, GETDATE());
 
 
-select * from [Order]
-select * from [Product]
-select * from [Product_Warehouse]
-select * from [Warehouse]
+--select * from [Order]
+--select * from [Product]
+--select * from [Product_Warehouse]
+--select * from [Warehouse]
 
-INSERT INTO "Order"(IdProduct, Amount, CreatedAt) values (1,125,'2024-04-23T16:02:12.380Z')
+--INSERT INTO "Order"(IdProduct, Amount, CreatedAt) values (1,125,'2024-04-23T16:02:12.380Z')

@@ -3,6 +3,8 @@ using Microsoft.Data.SqlClient;
 using System;
 using System.Data;
 using task7.Models;
+using System.ComponentModel.DataAnnotations;
+
 
 namespace task7.Controllers
 {
@@ -38,19 +40,19 @@ namespace task7.Controllers
                     if (productPrice == null)
                     {
                         transaction.Rollback();
-                        return NotFound("Product not found.");
+                        return BadRequest("Product not found.");
                     }
                     // if the product with the given id exists
                     if (!CheckIfExists(connection, transaction, "master.dbo.Product", "IdProduct", request.IdProduct))
                     {
                         transaction.Rollback();
-                        return NotFound("Product not found.");
+                        return BadRequest("Product not found.");
                     }
                     // if the warehouse with the given id exists
                     if (!CheckIfExists(connection, transaction, "master.dbo.Warehouse", "IdWarehouse", request.IdWarehouse))
                     {
                         transaction.Rollback();
-                        return NotFound("Warehouse not found.");
+                        return BadRequest("Warehouse not found.");
                     }
                     // check if order is available 
                     var orderId = CheckOrder(connection, transaction, request);
@@ -81,7 +83,7 @@ namespace task7.Controllers
             }
         }
         
-        [HttpPost("ExecuteAddProductToWarehouse")]
+        [HttpPost("/warehouse/procedure")]
         public IActionResult ExecuteAddProductToWarehouse([FromBody] WarehouseUpdateRequest request)
         {
             using (var connection = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
@@ -228,9 +230,15 @@ namespace task7.Controllers
     
     public class WarehouseUpdateRequest
     {
+        [Required]
         public int IdProduct { get; set; }
+        [Required]
         public int IdWarehouse { get; set; }
+        [Required]
+        [Range(1, int.MaxValue, ErrorMessage = "Amount must be greater than 0.")]
         public int Amount { get; set; }
+        [Required]
+
         public DateTime CreatedAt { get; set; }
     }
 }
