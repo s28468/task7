@@ -238,7 +238,6 @@ namespace task7.Controllers
         [Range(1, int.MaxValue, ErrorMessage = "Amount must be greater than 0.")]
         public int Amount { get; set; }
         [Required]
-
         public DateTime CreatedAt { get; set; }
     }
 }
